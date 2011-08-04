@@ -5,8 +5,8 @@ namespace Ano\Bundle\MediaBundle\Provider;
 use Gaufrette\Filesystem;
 use Ano\Bundle\MediaBundle\Model\Media;
 use Ano\Bundle\MediaBundle\Cdn\CdnInterface;
-use Ano\Bundle\MediaBundle\Util\PathGeneratorInterface;
-use Ano\Bundle\MediaBundle\Util\UuidGeneratorInterface;
+use Ano\Bundle\MediaBundle\Generator\Path\PathGeneratorInterface;
+use Ano\Bundle\MediaBundle\Generator\Uuid\UuidGeneratorInterface;
 
 
 abstract class AbstractProvider implements ProviderInterface

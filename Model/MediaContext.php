@@ -1,6 +1,6 @@
 <?php
 
-namespace Ano\Bundle\MedialBundle\Model;
+namespace Ano\Bundle\MediaBundle\Model;
 
 use Ano\Bundle\MediaBundle\Provider\ProviderInterface;
 
@@ -13,7 +13,7 @@ class MediaContext
     protected $provider;
     
 
-    public function __construct($name, $basePath = null)
+    public function __construct($name)
     {
         $this->setName($name);
     }

@@ -11,6 +11,9 @@ abstract class Media
     protected $name;
 
     /* @var string */
+    protected $context;
+
+    /* @var string */
     protected $contentType;
 
     /**
@@ -182,5 +185,21 @@ abstract class Media
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * @param string $context
+     */
+    public function setContext($context)
+    {
+        $this->context = $context;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContext()
+    {
+        return $this->context;
     }
 }

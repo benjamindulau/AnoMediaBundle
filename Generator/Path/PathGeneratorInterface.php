@@ -1,6 +1,6 @@
 <?php
 
-namespace Ano\Bundle\MediaBundle\Util;
+namespace Ano\Bundle\MediaBundle\Generator\Path;
 
 use Ano\Bundle\MediaBundle\Model\Media;
 

@@ -3,10 +3,15 @@
 namespace Ano\Bundle\MediaBundle\Provider;
 
 use Ano\Bundle\MediaBundle\Model\Media;
-use Gaufrette\File;
+use Ano\Bundle\MediaBundle\Util\Image\ImageManipulatorInterface;
+use Symfony\Component\HttpFoundation\File\File;
+use Ano\Bundle\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
 class ImageProvider extends AbstractProvider
 {
+    /* @var \Ano\Bundle\MediaBundle\Util\Image\ImageManipulatorInterface */
+    protected $imageManipulator;
+
     /**
      * {@inheritDoc}
      */
@@ -32,12 +37,26 @@ class ImageProvider extends AbstractProvider
      */
     public function saveMedia(Media $media)
     {
+        if (!$media->getContent() instanceof File) {
+            return;
+        }
+        
         $this->generateFormats($media);
     }
 
     public function generateFormats(Media $media)
     {
-        
+        foreach($this->formats as $format => $options) {
+            $width = array_key_exists('width', $options) ? $options['width'] : null;
+            $height = array_key_exists('height', $options) ? $options['height'] : null;
+
+            $this->imageManipulator->resize(
+                $this->filesystem->get($media->getContent()->getRealPath()),
+                $this->filesystem->get($this->generateRelativePath($media, $format), true),
+                $width,
+                $height
+            );
+        }
     }
 
     /**
@@ -45,7 +64,20 @@ class ImageProvider extends AbstractProvider
      */
     public function getMediaUrl(Media $media, $format)
     {
-        // TODO: Implement getMediaUrl() method.
+        $path = $this->generateRelativePath($media, $format);
+
+        return $this->cdn->getFullPath($path);
+    }
+
+    public function generateRelativePath(Media $media, $format)
+    {
+        return sprintf(
+            '%s/%s_%s.%s',
+            $this->generatePath($media),
+            $media->getUuid(),
+            $format,
+            ExtensionGuesser::guess($media->getContentType())
+        );
     }
 
     /**
@@ -53,7 +85,7 @@ class ImageProvider extends AbstractProvider
      */
     public function updateMedia(Media $media)
     {
-        // TODO: Implement updateMedia() method.
+        $this->saveMedia($media);
     }
 
     /**
@@ -61,8 +93,16 @@ class ImageProvider extends AbstractProvider
      */
     public function removeMedia(Media $media)
     {
-        // TODO: Implement removeMedia() method.
+        foreach($this->formats as $format => $options) {
+            $path = $this->generateRelativePath($media, $format);
+            if ($this->getFilesystem()->has($path)) {
+                $this->getFilesystem()->delete($path);
+            }
+        }
     }
 
-
+    public function setImageManipulator(ImageManipulatorInterface $imageManipulator)
+    {
+        $this->imageManipulator = $imageManipulator;
+    }
 }
