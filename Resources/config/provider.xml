@@ -18,7 +18,11 @@
             <argument />
         </service>
 
-        <service id="ano_media.provider.image" class="%ano_media.provider.image.class%" parent="ano_media.provider.abstract" />
+        <service id="ano_media.provider.image" class="%ano_media.provider.image.class%" parent="ano_media.provider.abstract">
+            <call method="setImageManipulator">
+                <argument />
+            </call>
+        </service>
     </services>
 
 </container>

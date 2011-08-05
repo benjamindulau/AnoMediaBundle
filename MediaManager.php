@@ -5,6 +5,7 @@ namespace Ano\Bundle\MediaBundle;
 use Ano\Bundle\MediaBundle\Model\MediaContext;
 use Ano\Bundle\MediaBundle\Cdn\CdnInterface;
 use Ano\Bundle\MediaBundle\Provider\ProviderInterface;
+use Gaufrette\Filesystem;
 
 class MediaManager
 {
@@ -22,12 +23,13 @@ class MediaManager
 
     /* @var CdnInterface */
     protected $defaultCdn;
+    
+    /* @var array */
+    protected $filesystems = array();
 
-
-    public function __construct(array $contexts)
-    {
-        $this->contexts = $contexts;
-    }   
+    /* @var Filesystem */
+    protected $defaultFilesystem;
+    
 
     /**
      * @param string       $name
@@ -169,5 +171,56 @@ class MediaManager
     public function hasProvider($name)
     {
         return array_key_exists($name, $this->providers);
+    }
+    
+    /**
+     * @param Filesystem
+     */
+    public function setDefaultFilesystem(Filesystem $defaultFilesystem)
+    {
+        $this->defaultFilesystem = $defaultFilesystem;
+    }
+
+    /**
+     * @return Filesystem
+     */
+    public function getDefaultFilesystem()
+    {
+        return $this->defaultFilesystem;
+    }
+
+    /**
+     * @param array $filesystems
+     */
+    public function setFilesystems($filesystems)
+    {
+        $this->filesystems = $filesystems;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFilesystems()
+    {
+        return $this->filesystems;
+    }
+
+    public function addFilesystem($name, Filesystem $filesystem)
+    {
+        $this->filesystems[$name] = $filesystem;
+    }
+
+    public function getFilesystem($name)
+    {
+        if (!$this->hadFilesystem($name)) {
+            throw new \InvalidArgumentException(sprintf('Filesystem "%s" doesn\'t exist', $name));
+        }
+
+        return $this->filesystems[$name];
+    }
+
+    public function hasFilesystem($name)
+    {
+        return array_key_exists($name, $this->filesystems);
     }
 }

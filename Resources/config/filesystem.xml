@@ -5,7 +5,10 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="ano_media.filesystem.adapter.local" class="Gaufrette\Adapter\Local" />
+        <service id="ano_media.filesystem.adapter.local" class="Gaufrette\Adapter\Local">
+            <argument>%ano_media.filesystem.local.base_path%</argument>
+            <argument>%ano_media.filesystem.local.create%</argument>
+        </service>
         <service id="ano_media.filesystem.adapter.ftp" class="Gaufrette\Adapter\Ftp" />
 
         <service id="ano_media.filesystem.local" class="Gaufrette\Filesystem">

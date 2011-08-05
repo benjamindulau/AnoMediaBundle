@@ -10,7 +10,7 @@
 
     <services>
         <service id="ano_media.cdn.remote_server" class="%ano_media.cdn.remote_server.class%">
-            <argument />
+            <argument>%ano_media.cdn.remote_server.base_url%</argument>
         </service>
     </services>
 

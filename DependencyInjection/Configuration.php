@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
         $this->addCdnSection($rootNode);
         $this->addProviderSection($rootNode);
         $this->addGeneratorSection($rootNode);
+        $this->addManipulatorSection($rootNode);
         $this->addFilesystemSection($rootNode);
         $this->addContextsSection($rootNode);
 
@@ -76,7 +77,7 @@ class Configuration implements ConfigurationInterface
                             'default' => true,
                             'id' => 'ano_media.cdn.remote_server',
                             'options' => array(
-                                'base_url' => '%request.base_url%/media'
+                                'base_url' => '/media'
                             )
                         )
                     ))
@@ -186,6 +187,46 @@ class Configuration implements ConfigurationInterface
                             ))
                         ->end()
                     ->end()
+                ->end()
+            ->end();
+    }
+
+    /**
+     * Parses the ano_media.manipulator config section
+     * Example for yaml driver:
+     * ano_media:
+     *     manipulator:
+     *         image:
+     *             default: true
+     *             id: ano_media.util.image.manipulator.imagine
+     *
+     * @param ArrayNodeDefinition $node
+     * @return void
+     */
+    private function addManipulatorSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->children()
+                ->arrayNode('manipulator')
+                    ->addDefaultsIfNotSet()
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->beforeNormalization()
+                            ->ifTrue(function($v) { return !is_array($v); })
+                            ->thenInvalid('The ano_media.manipulator config "%s" must be an array.')
+                        ->end()
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('default')->defaultValue(false)->end()
+                            ->scalarNode('id')->isRequired()->end()
+                        ->end()
+                    ->end()
+                    ->defaultValue(array(
+                        'imagine' => array(
+                            'default' => true,
+                            'id' => 'ano_media.util.image.manipulator.imagine',
+                        )
+                    ))
                 ->end()
             ->end();
     }
