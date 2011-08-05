@@ -7,8 +7,8 @@
     <mapped-superclass name="Ano\Bundle\MediaBundle\Model\Media">
 
         <field name="uuid" column="uuid" type="string" length="255" unique="true" />
-        <field name="name" column="name" type="string" length="255" />
-        <field name="context" column="context" type="string" length="100" />
+        <field name="name" column="name" type="string" length="255" nullable="true" />
+        <field name="context" column="context" type="string" length="100" nullable="true" />
         <field name="contentType" column="content_type" type="string" length="30" nullable="true" />
         <field name="metadata" column="metadata" type="array" nullable="true" />
         <field name="width" column="width" type="integer" nullable="true" />

@@ -38,8 +38,9 @@ abstract class Media
     protected $content;
 
 
-    public function __construct()
+    public function __construct($context = null)
     {
+        $this->setContext($context);
         $this->updatedAt = $this->createdAt = new \DateTime();
     }
 

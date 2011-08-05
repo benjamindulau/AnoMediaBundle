@@ -2,10 +2,15 @@
 
 namespace Ano\Bundle\MediaBundle;
 
+use Ano\Bundle\MediaBundle\Model\Media;
 use Ano\Bundle\MediaBundle\Model\MediaContext;
 use Ano\Bundle\MediaBundle\Cdn\CdnInterface;
 use Ano\Bundle\MediaBundle\Provider\ProviderInterface;
 use Gaufrette\Filesystem;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
+
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class MediaManager
 {
@@ -29,6 +34,9 @@ class MediaManager
 
     /* @var Filesystem */
     protected $defaultFilesystem;
+
+    /* @var \Symfony\Component\HttpKernel\Log\LoggerInterface */
+    protected $logger;
     
 
     /**
@@ -43,7 +51,7 @@ class MediaManager
 
     /**
      * @param string $name
-     * @return \Mval\SiteBundle\Util\MediaContext
+     * @return \Ano\Bundle\MediaBundle\Model\MediaContext
      */
     public function getContext($name)
     {
@@ -222,5 +230,68 @@ class MediaManager
     public function hasFilesystem($name)
     {
         return array_key_exists($name, $this->filesystems);
+    }
+
+    public function prePersist(LifecycleEventArgs $eventArgs)
+    {
+        $this->prepareMedia($eventArgs->getEntity());
+    }
+
+    public function preUpdate(PreUpdateEventArgs $eventArgs)
+    {
+        $this->prepareMedia($eventArgs->getEntity());
+    }
+
+    private function prepareMedia($entity)
+    {
+        $this->logger->info(sprintf('Prepare media : %s', get_class($entity)));
+
+        if (!$entity instanceof Media) {
+            return;
+        }
+
+        $context = $this->getContext($entity->getContext());
+        $context->getProvider()->prepareMedia($entity);
+    }
+
+    public function postPersist(LifecycleEventArgs $eventArgs)
+    {
+        $this->saveMedia($eventArgs->getEntity(), true);
+    }
+
+    public function postUpdate(LifecycleEventArgs $eventArgs)
+    {
+        $this->saveMedia($eventArgs->getEntity());
+    }
+
+    private function saveMedia($entity, $new = false)
+    {
+        if (!$entity instanceof Media) {
+            return;
+        }
+
+        $context = $this->getContext($entity->getContext());
+        if ($new) {
+            $context->getProvider()->saveMedia($entity);
+        }
+        else {
+            $context->getProvider()->updateMedia($entity);
+        }
+    }
+
+    public function postRemove(LifecycleEventArgs $eventArgs)
+    {
+        $entity = $eventArgs->getEntity();
+        if (!$entity instanceof Media) {
+            return;
+        }
+
+        $context = $this->getContext($entity->getContext());
+        $context->getProvider()->removeMedia($entity);
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 }

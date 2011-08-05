@@ -2,6 +2,9 @@
 
 namespace Ano\Bundle\MediaBundle\Util\Image;
 
+use Ano\Bundle\MediaBundle\Model\Media;
+use Ano\Bundle\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
+
 use Imagine\ImagineInterface,
     Imagine\ImageInterface,
     Imagine\Image\Box;
@@ -21,7 +24,7 @@ class ImagineImageManipulator implements ImageManipulatorInterface
     /**
      * {@inheritDoc}
      */
-    public function resize(File $fromFile, File $toFile, $width, $height, $mode = self::RESIZE_MODE_OUTBOUND, $options = array())
+    public function resize(Media $media, File $fromFile, File $toFile, $width, $height, $mode = self::RESIZE_MODE_OUTBOUND, $options = array())
     {
         if (empty($width) && empty($height)) {
             throw new \InvalidArgumentException('You must specify at least a width and/or an height value');
@@ -44,10 +47,12 @@ class ImagineImageManipulator implements ImageManipulatorInterface
                 $mode = ImageInterface::THUMBNAIL_OUTBOUND;
         }
         
-        $image = $this->imagine->open($fromFile->getKey());
-        $image
+        $image = $this->imagine->load($fromFile->getContent());
+        $output = $image
             ->thumbnail(new Box($width, $height), $mode)
-            ->save($toFile->getKey(), $options);
+            ->get(ExtensionGuesser::guess($media->getContentType()), $options);
+
+        $toFile->setContent($output);
     }
 
 

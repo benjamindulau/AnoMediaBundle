@@ -22,6 +22,9 @@
             <call method="setImageManipulator">
                 <argument />
             </call>
+            <call method="setLogger">
+                <argument type="service" id="logger" />
+            </call>
         </service>
     </services>
 

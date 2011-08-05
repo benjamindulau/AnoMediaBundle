@@ -35,7 +35,7 @@ class MediaContext
     }
 
     /**
-     * @param \Ano\Bundle\MedialBundle\Model\ProviderInterface $provider
+     * @param \Ano\Bundle\MediaBundle\Provider\ProviderInterface $provider
      */
     public function setProvider(ProviderInterface $provider)
     {
@@ -43,7 +43,7 @@ class MediaContext
     }
 
     /**
-     * @return \Ano\Bundle\MedialBundle\Model\ProviderInterface
+     * @return \Ano\Bundle\MediaBundle\Provider\ProviderInterface
      */
     public function getProvider()
     {
