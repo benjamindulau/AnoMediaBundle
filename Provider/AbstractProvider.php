@@ -13,12 +13,24 @@ abstract class AbstractProvider implements ProviderInterface
 {
     /* @var array */
     protected $formats;
+
     /* @var string */
     protected $name;
+
+    /* @var Filesystem */
     protected $filesystem;
+
+    /* @var PathGeneratorInterface */
     protected $pathGenerator;
+
+    /* @var UuidGeneratorInterface */
     protected $uuidGenerator;
+
+    /* @var CdnInterface */
     protected $cdn;
+
+    /* @var string */
+    protected $template;
 
     public function __construct(
         $name,
@@ -121,5 +133,21 @@ abstract class AbstractProvider implements ProviderInterface
     public function getCdn()
     {
         return $this->cdn;
+    }
+
+    /**
+     * @param string $template
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->template;
     }
 }

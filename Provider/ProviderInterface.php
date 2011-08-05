@@ -72,4 +72,17 @@ interface ProviderInterface
      * @return void
      */
     public function removeMedia(Media $media);
+
+    /**
+     * @return string
+     */
+    public function getTemplate();
+
+    /**
+     * @param \Ano\Bundle\MediaBundle\Model\Media $media
+     * @param string $format
+     * @param array $options
+     * @return void
+     */
+    public function renderRaw(Media $media, $format, array $options = array());
 }

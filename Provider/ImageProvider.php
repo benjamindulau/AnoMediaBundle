@@ -16,6 +16,9 @@ class ImageProvider extends AbstractProvider
     /* @var \Symfony\Component\HttpKernel\Log\LoggerInterface */
     protected $logger;
 
+    /* @var string */
+    protected $template = null;
+
     /**
      * {@inheritDoc}
      */
@@ -145,4 +148,14 @@ class ImageProvider extends AbstractProvider
     {
         $this->logger = $logger;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function renderRaw(Media $media, $format, array $options = array())
+    {
+        return $this->getMediaUrl($media, $format);
+    }
+
+
 }
