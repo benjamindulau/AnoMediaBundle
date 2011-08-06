@@ -43,11 +43,17 @@ interface ProviderInterface
     public function getFormats();
 
     /**
+     * @param array $formats
+     * @return void
+     */
+    public function setFormats(array $formats);
+
+    /**
      * @param Media $media
      * @param string $format
      * @return string
      */
-    public function getMediaUrl(Media $media, $format);
+    public function getMediaUrl(Media $media, $format = null);
 
     /**
      * @param \Ano\Bundle\MediaBundle\Model\Media $media
@@ -84,5 +90,5 @@ interface ProviderInterface
      * @param array $options
      * @return void
      */
-    public function renderRaw(Media $media, $format, array $options = array());
+    public function renderRaw(Media $media, $format = null, array $options = array());
 }

@@ -11,6 +11,9 @@ class MediaContext
 
     /* @var ProviderInterface */
     protected $provider;
+
+    /* @var array */
+    protected $formats = array();
     
 
     public function __construct($name)
@@ -48,5 +51,41 @@ class MediaContext
     public function getProvider()
     {
         return $this->provider;
+    }
+
+    /**
+     * @param string $name
+     * @param array $format
+     * @return void
+     */
+    public function addFormat($name, array $format)
+    {
+        $this->formats[$name] = $format;
+    }
+
+    /**
+     * @param string $name
+     * @return boolean
+     */
+    public function hasFormat($name)
+    {
+        return array_key_exists($name, $this->formats);
+    }
+
+    /**
+     * @param string $name
+     * @return string|boolean
+     */
+    public function getFormat($name)
+    {
+        return $this->hasFormat($name) ? $this->formats[$name] : false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFormats()
+    {
+        return $this->formats;
     }
 }

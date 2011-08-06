@@ -30,7 +30,7 @@ class MediaExtension extends \Twig_Extension
         );
     }
 
-    public function getMedia(Media $media, $format, array $options = array())
+    public function getMedia(Media $media, $format = null, array $options = array())
     {
         $context = $this->getMediaManager()->getContext($media->getContext());
         $provider = $context->getProvider();

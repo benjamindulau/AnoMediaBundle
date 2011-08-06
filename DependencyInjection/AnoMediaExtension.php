@@ -238,9 +238,8 @@ class AnoMediaExtension extends Extension
             }
 
             // Formats
-            $providerDef = $container->getDefinition($providerId);
             foreach($options['formats'] as $formatName => $params) {
-                $providerDef->addMethodCall('addFormat', array($formatName, $params));
+                $context->addMethodCall('addFormat', array($formatName, $params));
             }
 
             $manager->addMethodCall('addContext', array($name, $context));

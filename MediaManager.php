@@ -250,6 +250,7 @@ class MediaManager
             return;
         }
 
+        $entity->setUpdatedAt(new \DateTime());
         $context = $this->getContext($entity->getContext());
         $context->getProvider()->prepareMedia($entity);
     }
@@ -271,6 +272,8 @@ class MediaManager
         }
 
         $context = $this->getContext($entity->getContext());
+        $context->getProvider()->setFormats($context->getFormats());
+
         if ($new) {
             $context->getProvider()->saveMedia($entity);
         }

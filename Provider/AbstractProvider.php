@@ -85,6 +85,15 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
+     * @param array $formats
+     * @return void
+     */
+    public function setFormats(array $formats)
+    {
+        $this->formats = $formats;
+    }
+
+    /**
      * @param string $name
      * @return void
      */
