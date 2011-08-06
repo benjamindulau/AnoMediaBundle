@@ -24,14 +24,26 @@ class ImagineImageManipulator implements ImageManipulatorInterface
     /**
      * {@inheritDoc}
      */
-    public function resize(Media $media, File $fromFile, File $toFile, $width, $height, $mode = self::RESIZE_MODE_OUTBOUND, $options = array())
+    public function resize(Media $media, File $fromFile, File $toFile, $options = array())
     {
-        if (empty($width) && empty($height)) {
-            throw new \InvalidArgumentException('You must specify at least a width and/or an height value');
-        }
-
         if (!array_key_exists('quality', $options)) {
             $options['quality'] = 100;
+        }
+
+        $mode = isset($options['mode']) ? $options['mode'] : self::RESIZE_MODE_OUTBOUND;
+        $width = isset($options['width']) ? (int)$options['width'] : null;
+        $height = isset($options['height']) ? (int)$options['height'] : null;
+
+        if (!is_numeric($width) && !is_numeric($height)) {
+            throw new \InvalidArgumentException('You must specify at least a width and/or an height value');
+        }
+        
+        $metadata = $media->getMetadata();
+        if (null !== $width && null == $height) {
+            $height = (int)($width * $metadata['height'] / $metadata['width']);
+        }
+        else if (null == $width) {
+            $width = (int)($height * $metadata['width'] / $metadata['height']);
         }
 
         switch($mode) {

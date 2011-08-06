@@ -44,6 +44,10 @@ class ImageProvider extends AbstractProvider
             $media->setContent(new File($content));
         }
 
+        $metadata = array();
+        list($metadata['width'], $metadata['height']) = @getimagesize($media->getContent()->getRealPath());
+
+        $media->setMetadata($metadata);
         $media->setName($media->getContent()->getBasename());
         $media->setContentType($media->getContent()->getMimeType());
     }
@@ -83,6 +87,12 @@ class ImageProvider extends AbstractProvider
                 $this->getFilesystem()->delete($path);
             }
         }
+
+        // Original
+        $path = $this->getOriginalFilePath($media);
+        if ($this->getFilesystem()->has($path)) {
+            $this->getFilesystem()->delete($path);
+        }
     }
 
     private function getOriginalFilePath(Media $media)
@@ -105,15 +115,11 @@ class ImageProvider extends AbstractProvider
         $originalFile = $this->getOriginalFile($media);
 
         foreach($this->formats as $format => $options) {
-            $width = array_key_exists('width', $options) ? $options['width'] : null;
-            $height = array_key_exists('height', $options) ? $options['height'] : null;
-
             $this->imageManipulator->resize(
                 $media,
                 $originalFile,
                 $this->filesystem->get($this->generateRelativePath($media, $format), true),
-                $width,
-                $height
+                $options
             );
         }
     }
@@ -121,14 +127,20 @@ class ImageProvider extends AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function getMediaUrl(Media $media, $format)
+    public function getMediaUrl(Media $media, $format = null)
     {
-        $path = $this->generateRelativePath($media, $format);
+        // wants original file
+        if (null == $format) {
+            $path = $this->getOriginalFilePath($media);
+        }
+        else {
+            $path = $this->generateRelativePath($media, $format);
+        }
 
         return $this->cdn->getFullPath($path);
     }
 
-    public function generateRelativePath(Media $media, $format)
+    public function generateRelativePath(Media $media, $format = null)
     {
         return sprintf(
             '%s/%s_%s.%s',
@@ -152,7 +164,7 @@ class ImageProvider extends AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function renderRaw(Media $media, $format, array $options = array())
+    public function renderRaw(Media $media, $format = null, array $options = array())
     {
         return $this->getMediaUrl($media, $format);
     }
