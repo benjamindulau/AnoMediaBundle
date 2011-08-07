@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="ano_media.provider.abstract.class">Ano\Bundle\MediaBundle\Provider\AbstractProvider</parameter>
         <parameter key="ano_media.provider.image.class">Ano\Bundle\MediaBundle\Provider\ImageProvider</parameter>
+        <parameter key="ano_media.provider.dailymotion.class">Ano\Bundle\MediaBundle\Provider\DailymotionProvider</parameter>
     </parameters>
 
     <services>
@@ -26,6 +27,9 @@
                 <argument type="service" id="logger" />
             </call>
         </service>
+
+        <service id="ano_media.provider.dailymotion" class="%ano_media.provider.dailymotion.class%" parent="ano_media.provider.abstract" />
+
     </services>
 
 </container>

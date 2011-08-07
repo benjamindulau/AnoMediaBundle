@@ -1,0 +1,22 @@
+{#
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+Source : https://github.com/sonata-project/SonataMediaBundle/blob/master/Resources/views/Provider/view_dailymotion.html.twig
+
+#}
+
+<object width="{{ options.width }}" height="{{ options.height }}">
+    <param name="movie" value="http://www.dailymotion.com/swf/video/{{ media.metadata.uuid }}?{{ options.player_parameters }}"></param>
+    <param name="allowFullScreen" value="{{ options.allowFullScreen }}"></param>
+    <param name="allowScriptAccess" value="{{ options.allowScriptAccess }}"></param>
+
+    <embed
+        type="application/x-shockwave-flash"
+        src="http://www.dailymotion.com/swf/video/{{ media.metadata.uuid }}?{{ options.player_parameters }}"
+        width="{{ options.width }}"
+        height="{{ options.height }}"
+        allowfullscreen="{{ options.allowFullScreen }}"
+        allowscriptaccess="{{ options.allowScriptAccess }}">
+    </embed>
+</object>

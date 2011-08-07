@@ -34,7 +34,8 @@ class MediaExtension extends \Twig_Extension
     {
         $context = $this->getMediaManager()->getContext($media->getContext());
         $provider = $context->getProvider();
-
+        $options = $provider->getRenderOptions($media, $format, $options);
+        
         if (null == $provider->getTemplate()) {
             return $provider->renderRaw($media, $format, $options);
         }

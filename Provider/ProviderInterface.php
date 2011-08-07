@@ -91,4 +91,12 @@ interface ProviderInterface
      * @return void
      */
     public function renderRaw(Media $media, $format = null, array $options = array());
+
+    /**
+     * @param \Ano\Bundle\MediaBundle\Model\Media $media
+     * @param string $format
+     * @param array $options
+     * @return array Merged options
+     */
+    public function getRenderOptions(Media $media, $format, array $options = array());
 }

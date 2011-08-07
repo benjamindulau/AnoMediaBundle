@@ -169,5 +169,13 @@ class ImageProvider extends AbstractProvider
         return $this->getMediaUrl($media, $format);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getRenderOptions(Media $media, $format, array $options = array())
+    {
+        return $options;
+    }
+
 
 }
