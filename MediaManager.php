@@ -239,18 +239,27 @@ class MediaManager
 
     public function preUpdate(PreUpdateEventArgs $eventArgs)
     {
-        $this->prepareMedia($eventArgs->getEntity());
+        $entity = $eventArgs->getEntity();
+        $this->prepareMedia($entity);
+
+        if ($entity instanceof Media) {
+            // Hack ? Don't know, that's the behaviour Doctrine 2 seems to want
+            // See : http://www.doctrine-project.org/jira/browse/DDC-1020
+            $em = $eventArgs->getEntityManager();
+            $uow = $em->getUnitOfWork();
+            $uow->recomputeSingleEntityChangeSet(
+                $em->getClassMetadata(get_class($entity)),
+                $eventArgs->getEntity()
+            );
+        }
     }
 
     private function prepareMedia($entity)
     {
-        $this->logger->info(sprintf('Prepare media : %s', get_class($entity)));
-
         if (!$entity instanceof Media) {
             return;
         }
 
-        $entity->setUpdatedAt(new \DateTime());
         $context = $this->getContext($entity->getContext());
         $context->getProvider()->prepareMedia($entity);
     }
