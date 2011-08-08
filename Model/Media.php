@@ -40,7 +40,9 @@ abstract class Media
 
     public function __construct($context = null)
     {
-        $this->setContext($context);
+        if (null !== $context) {
+            $this->setContext($context);
+        }
         $this->updatedAt = $this->createdAt = new \DateTime();
     }
 
@@ -178,6 +180,7 @@ abstract class Media
     public function setContent($content)
     {
         $this->content = $content;
+        $this->setUpdatedAt(new \DateTime());
     }
 
     /**

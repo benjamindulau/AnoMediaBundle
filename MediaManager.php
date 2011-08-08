@@ -7,10 +7,6 @@ use Ano\Bundle\MediaBundle\Model\MediaContext;
 use Ano\Bundle\MediaBundle\Cdn\CdnInterface;
 use Ano\Bundle\MediaBundle\Provider\ProviderInterface;
 use Gaufrette\Filesystem;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
-
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class MediaManager
 {
@@ -35,9 +31,6 @@ class MediaManager
     /* @var Filesystem */
     protected $defaultFilesystem;
 
-    /* @var \Symfony\Component\HttpKernel\Log\LoggerInterface */
-    protected $logger;
-    
 
     /**
      * @param string       $name
@@ -232,78 +225,28 @@ class MediaManager
         return array_key_exists($name, $this->filesystems);
     }
 
-    public function prePersist(LifecycleEventArgs $eventArgs)
+    public function prepareMedia(Media $media)
     {
-        $this->prepareMedia($eventArgs->getEntity());
+        $context = $this->getContext($media->getContext());
+        $context->getProvider()->prepareMedia($media);
     }
 
-    public function preUpdate(PreUpdateEventArgs $eventArgs)
+    public function saveMedia(Media $media, $new = false)
     {
-        $entity = $eventArgs->getEntity();
-        $this->prepareMedia($entity);
-
-        if ($entity instanceof Media) {
-            // Hack ? Don't know, that's the behaviour Doctrine 2 seems to want
-            // See : http://www.doctrine-project.org/jira/browse/DDC-1020
-            $em = $eventArgs->getEntityManager();
-            $uow = $em->getUnitOfWork();
-            $uow->recomputeSingleEntityChangeSet(
-                $em->getClassMetadata(get_class($entity)),
-                $eventArgs->getEntity()
-            );
-        }
-    }
-
-    private function prepareMedia($entity)
-    {
-        if (!$entity instanceof Media) {
-            return;
-        }
-
-        $context = $this->getContext($entity->getContext());
-        $context->getProvider()->prepareMedia($entity);
-    }
-
-    public function postPersist(LifecycleEventArgs $eventArgs)
-    {
-        $this->saveMedia($eventArgs->getEntity(), true);
-    }
-
-    public function postUpdate(LifecycleEventArgs $eventArgs)
-    {
-        $this->saveMedia($eventArgs->getEntity());
-    }
-
-    private function saveMedia($entity, $new = false)
-    {
-        if (!$entity instanceof Media) {
-            return;
-        }
-
-        $context = $this->getContext($entity->getContext());
+        $context = $this->getContext($media->getContext());
         $context->getProvider()->setFormats($context->getFormats());
 
         if ($new) {
-            $context->getProvider()->saveMedia($entity);
+            $context->getProvider()->saveMedia($media);
         }
         else {
-            $context->getProvider()->updateMedia($entity);
+            $context->getProvider()->updateMedia($media);
         }
     }
 
-    public function postRemove(LifecycleEventArgs $eventArgs)
+    public function removeMedia(Media $media)
     {
-        $entity = $eventArgs->getEntity();
-        if (!$entity instanceof Media) {
-            return;
-        }
-
-        $context = $this->getContext($entity->getContext());
-        $context->getProvider()->removeMedia($entity);
-    }
-
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
+        $context = $this->getContext($media->getContext());
+        $context->getProvider()->removeMedia($media);
     }
 }
