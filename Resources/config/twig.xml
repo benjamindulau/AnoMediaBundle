@@ -5,9 +5,9 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="twig.extension.media" class="Ano\Bundle\MediaBundle\Twig\Extension\MediaExtension" public="false">
-            <tag name="twig.extension" />
-            <argument type="service" id="service_container" />
+        <service id="ano_media.twig.extension.media" class="Ano\Bundle\MediaBundle\Twig\Extension\MediaExtension" public="false">
+            <tag name="twig.extension" alias="media" />
+            <argument type="service" id="ano_media.templating.helper.media" />
         </service>
     </services>
 </container>

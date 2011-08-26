@@ -50,10 +50,10 @@ class AnoMediaExtension extends Extension
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
-        foreach (array('provider', 'cdn', 'filesystem', 'generator', 'image', 'manager', 'twig', 'orm') as $basename) {
+        foreach (array('provider', 'cdn', 'filesystem', 'generator', 'image', 'manager', 'templating', 'twig', 'orm') as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
-
+        
         $manager = $container->getDefinition('ano_media.manager');
 
         // Order matters !!

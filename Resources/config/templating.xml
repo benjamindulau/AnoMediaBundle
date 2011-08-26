@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="ano_media.templating.helper.media.class">Ano\Bundle\MediaBundle\Templating\Helper\MediaHelper</parameter>
+    </parameters>
+
+    <services>
+        <service id="ano_media.templating.helper.media" class="%ano_media.templating.helper.media.class%">
+            <tag name="templating.helper" alias="media" />
+            <argument type="service" id="service_container" />
+        </service>
+    </services>
+
+</container>
