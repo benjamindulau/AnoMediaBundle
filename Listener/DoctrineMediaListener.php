@@ -53,7 +53,7 @@ class DoctrineMediaListener
         if (!$entity instanceof Media) {
             return;
         }
-
+        
         $this->mediaManager->removeMedia($entity);
     }
 

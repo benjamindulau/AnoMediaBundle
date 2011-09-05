@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="ano_media.listener.doctrine.class">Ano\Bundle\MediaBundle\Listener\DoctrineMediaListener</parameter>
+        <parameter key="ano_media.repository.media.class">Ano\Bundle\MediaBundle\Repository\DoctrineMediaRepository</parameter>
     </parameters>
 
     <services>
@@ -16,6 +17,10 @@
             <tag name="doctrine.event_listener" event="postUpdate" />
             <tag name="doctrine.event_listener" event="postRemove" />
             <argument type="service" id="ano_media.manager" />
+        </service>
+
+        <service id="ano_media.repository.media" class="%ano_media.repository.media.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
     </services>
 

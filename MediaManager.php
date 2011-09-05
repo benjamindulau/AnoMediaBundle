@@ -247,6 +247,7 @@ class MediaManager
     public function removeMedia(Media $media)
     {
         $context = $this->getContext($media->getContext());
+        $context->getProvider()->setFormats($context->getFormats());
         $context->getProvider()->removeMedia($media);
     }
 }
