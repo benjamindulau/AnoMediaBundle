@@ -8,48 +8,22 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Ano\Bundle\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
-class ImageProvider extends AbstractProvider
+class ImageProvider extends FileProvider
 {
     /* @var \Ano\Bundle\MediaBundle\Util\Image\ImageManipulatorInterface */
     protected $imageManipulator;
 
-    /* @var \Symfony\Component\HttpKernel\Log\LoggerInterface */
-    protected $logger;
-
-    /* @var string */
-    protected $template = null;
 
     /**
      * {@inheritDoc}
      */
     public function prepareMedia(Media $media)
     {
-        $this->logger->info('Prepare Media');
+        parent::prepareMedia($media);
 
-        if (null == $media->getUuid()) {
-            $uuid = $this->uuidGenerator->generateUuid($media);
-            $media->setUuid($uuid);
-        }
-
-        $content = $media->getContent();
-        if (empty($content)) {
-            return;
-        }
-
-        if (!$content instanceof File) {
-            if (!is_file($content)) {
-                throw new \RuntimeException('Invalid image file');
-            }
-
-            $media->setContent(new File($content));
-        }
-
-        $metadata = array();
+        $metadata = $media->getMetadata();
         list($metadata['width'], $metadata['height']) = @getimagesize($media->getContent()->getRealPath());
-
         $media->setMetadata($metadata);
-        $media->setName($media->getContent()->getBasename());
-        $media->setContentType($media->getContent()->getMimeType());
     }
 
     /**
@@ -57,57 +31,8 @@ class ImageProvider extends AbstractProvider
      */
     public function saveMedia(Media $media)
     {
-        if (!$media->getContent() instanceof File) {
-            return;
-        }
-
-        $originalFile = $this->getOriginalFile($media);
-        $originalFile->setContent(file_get_contents($media->getContent()->getRealPath()));
-        
+        parent::saveMedia($media);
         $this->generateFormats($media);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function updateMedia(Media $media)
-    {
-        $this->saveMedia($media);
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeMedia(Media $media)
-    {
-        foreach($this->formats as $format => $options) {
-            $path = $this->generateRelativePath($media, $format);
-            if ($this->getFilesystem()->has($path)) {
-                $this->getFilesystem()->delete($path);
-            }
-        }
-
-        // Original
-        $path = $this->getOriginalFilePath($media);
-        if ($this->getFilesystem()->has($path)) {
-            $this->getFilesystem()->delete($path);
-        }
-    }
-
-    private function getOriginalFilePath(Media $media)
-    {
-        return sprintf(
-            '%s/%s.%s',
-            $this->generatePath($media),
-            $media->getUuid(),
-            ExtensionGuesser::guess($media->getContentType())
-        );
-    }
-
-    private function getOriginalFile(Media $media)
-    {
-        return $this->getFilesystem()->get($this->getOriginalFilePath($media), true);
     }
 
     public function generateFormats(Media $media)
@@ -127,55 +52,13 @@ class ImageProvider extends AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function getMediaUrl(Media $media, $format = null)
+    public function getRenderOptions(Media $media, $format, array $options = array())
     {
-        // wants original file
-        if (null == $format) {
-            $path = $this->getOriginalFilePath($media);
-        }
-        else {
-            $path = $this->generateRelativePath($media, $format);
-        }
-
-        return $this->cdn->getFullPath($path);
-    }
-
-    public function generateRelativePath(Media $media, $format = null)
-    {
-        return sprintf(
-            '%s/%s_%s.%s',
-            $this->generatePath($media),
-            $media->getUuid(),
-            $format,
-            ExtensionGuesser::guess($media->getContentType())
-        );
+        return $options;
     }
 
     public function setImageManipulator(ImageManipulatorInterface $imageManipulator)
     {
         $this->imageManipulator = $imageManipulator;
     }
-
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function renderRaw(Media $media, $format = null, array $options = array())
-    {
-        return $this->getMediaUrl($media, $format);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getRenderOptions(Media $media, $format, array $options = array())
-    {
-        return $options;
-    }
-
-
 }

@@ -7,6 +7,7 @@ use Ano\Bundle\MediaBundle\Model\Media;
 use Ano\Bundle\MediaBundle\Cdn\CdnInterface;
 use Ano\Bundle\MediaBundle\Generator\Path\PathGeneratorInterface;
 use Ano\Bundle\MediaBundle\Generator\Uuid\UuidGeneratorInterface;
+use Ano\Bundle\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
 
 abstract class AbstractProvider implements ProviderInterface
@@ -158,5 +159,33 @@ abstract class AbstractProvider implements ProviderInterface
     public function getTemplate()
     {
         return $this->template;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function renderRaw(Media $media, $format = null, array $options = array())
+    {
+        return $this->getMediaUrl($media, $format);
+    }
+
+
+    public function generateRelativePath(Media $media, $format = null)
+    {
+        return sprintf(
+            '%s/%s_%s.%s',
+            $this->generatePath($media),
+            $media->getUuid(),
+            $format,
+            ExtensionGuesser::guess($media->getContentType())
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function updateMedia(Media $media)
+    {
+        $this->saveMedia($media);
     }
 }

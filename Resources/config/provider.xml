@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="ano_media.provider.abstract.class">Ano\Bundle\MediaBundle\Provider\AbstractProvider</parameter>
+        <parameter key="ano_media.provider.file.class">Ano\Bundle\MediaBundle\Provider\FileProvider</parameter>
         <parameter key="ano_media.provider.image.class">Ano\Bundle\MediaBundle\Provider\ImageProvider</parameter>
         <parameter key="ano_media.provider.dailymotion.class">Ano\Bundle\MediaBundle\Provider\DailymotionProvider</parameter>
     </parameters>
@@ -23,10 +24,9 @@
             <call method="setImageManipulator">
                 <argument />
             </call>
-            <call method="setLogger">
-                <argument type="service" id="logger" />
-            </call>
         </service>
+
+        <service id="ano_media.provider.file" class="%ano_media.provider.file.class%" parent="ano_media.provider.abstract" />
 
         <service id="ano_media.provider.dailymotion" class="%ano_media.provider.dailymotion.class%" parent="ano_media.provider.abstract" />
 

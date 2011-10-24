@@ -113,6 +113,4 @@ class DailymotionProvider extends AbstractVideoProvider
 
         return $params;
     }
-
-
 }

@@ -34,7 +34,7 @@ abstract class AbstractVideoProvider extends AbstractProvider
      */
     public function saveMedia(Media $media)
     {
-
+        // Nothing to do
     }
 
     /**
@@ -51,7 +51,7 @@ abstract class AbstractVideoProvider extends AbstractProvider
      */
     public function removeMedia(Media $media)
     {
-        
+        // Nothing to do
     }
 
     /**
@@ -63,25 +63,4 @@ abstract class AbstractVideoProvider extends AbstractProvider
 
         return $this->cdn->getFullPath($path);
     }
-
-    public function generateRelativePath(Media $media, $format = null)
-    {
-        return sprintf(
-            '%s/%s_%s.%s',
-            $this->generatePath($media),
-            $media->getUuid(),
-            $format,
-            ExtensionGuesser::guess($media->getContentType())
-        );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function renderRaw(Media $media, $format = null, array $options = array())
-    {
-        return $this->getMediaUrl($media, $format);
-    }
-
-
 }
