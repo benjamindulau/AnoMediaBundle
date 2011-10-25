@@ -74,7 +74,7 @@ class FileProvider extends AbstractProvider
         }
     }
 
-    protected function getOriginalFilePath(Media $media)
+    public function getOriginalFilePath(Media $media)
     {
         return sprintf(
             '%s/%s.%s',
@@ -84,7 +84,7 @@ class FileProvider extends AbstractProvider
         );
     }
 
-    protected function getOriginalFile(Media $media)
+    public function getOriginalFile(Media $media)
     {
         return $this->getFilesystem()->get($this->getOriginalFilePath($media), true);
     }
