@@ -37,7 +37,7 @@ to use the appropriate media provider for a specific media type (a video or an i
 to do with it.
 
 A `provider` is an object responsible for retrieving a specific media type, like a video for instance, and to perform the
-operations relative to this media type. For example, an ImageProvider will know how retrieve an image from filesystem and
+operations relative to this media type. For example, an ImageProvider will know how to retrieve an image from filesystem and
 how to generate thumbs (trought an image manipulator interface), while a VideoProvider will know how to retrieve metadata
 from a WS API like Dailymotion or Youtube ones.
 
@@ -286,18 +286,18 @@ content of the file and set it into our UserPicture object.
 
                 if (!empty($data['picture'])) {
                     $userPicture = new UserPicture();
-                    $userPicture->setName($file->getClientOriginalName());
-                    $userPicture->setContent($file);
+                    $userPicture->setName($data['picture']->getClientOriginalName());
+                    $userPicture->setContent($data['picture']);
                     $user->setPicture($userPicture);
 
                     $this->userManager->saveUser($user);
-                    $this->session->setFlash('notice', 'Avatar enregistré !');
+                    $this->session->setFlash('notice', 'Avatar saved !');
                 }
 
                 return $this->getResponseRedirect('my_user_profile_edit');
             }
             else {
-                $this->session->setFlash('errors', 'Erreurs de saisie dans le formulaire');
+                $this->session->setFlash('errors', 'Validation errors, please fix your inputs');
             }
         }
 
