@@ -6,7 +6,7 @@ SonataAdminBundle parts and with some different OOP design approaches.
 The MediaBundle provides a generic and universal way to handle different kinds of medias in a project.
 It provides a bunch of services, each responsible for a specific task in the media journey.
 
-It tries to abstract the filesystem through the nice and funny KnpLabs Gaufrette library, but also an abstraction
+It tries to abstract the filesystem through the nice and funny KnpLabs Gaufrette library, but also provides an abstraction
 of CDN use.
 
 The understanding of the bundle behaviour requires some bases knowledge in OOP design.
