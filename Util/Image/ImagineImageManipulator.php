@@ -5,8 +5,8 @@ namespace Ano\Bundle\MediaBundle\Util\Image;
 use Ano\Bundle\MediaBundle\Model\Media;
 use Ano\Bundle\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
-use Imagine\ImagineInterface,
-    Imagine\ImageInterface,
+use Imagine\Image\ImagineInterface,
+    Imagine\Image\ImageInterface,
     Imagine\Image\Box;
 
 use Gaufrette\File;
