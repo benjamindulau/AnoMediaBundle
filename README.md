@@ -16,10 +16,26 @@ and Dependency Injection system/concept.
 
 ## Installation
 
-### Gaufrette Dependencies
+### Dependencies
+
+#### AnoSystemBundle
+
+Most of the Ano bundles have a dependency on a [AnoSystemBundle](https://github.com/benjamindulau/AnoSystemBundle)
+which provides common behaviour such as DIC parameters remapping in extensions, or an inflector, or even an AclManager.
+
+If you don't want the dependencies you can just c/c the `remapParametersNamespaces` and `remapParameters` from the
+AnoSystemBundle Extension to the MediaExtension file and get rid of the AnoSystemBundle.
+
+#### Gaufrette
 
 The bundle has a dependency with the KnpLabs [Gaufrette](https://github.com/knplabs/Gaufrette) library, so you need to
 install it in your projects and make sure to configure the autoloader for it.
+
+#### Imagine
+
+If you intend to use the default ImageManipulator implementation, you need to install the great
+[Imagine](https://github.com/avalanche123/Imagine) library from Bulat Shakirzyanov.
+
 
 ### MediaBundle
 
