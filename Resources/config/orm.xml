@@ -15,7 +15,7 @@
             <tag name="doctrine.event_listener" event="preUpdate" />
             <tag name="doctrine.event_listener" event="postPersist" />
             <tag name="doctrine.event_listener" event="postUpdate" />
-            <tag name="doctrine.event_listener" event="postRemove" />
+            <tag name="doctrine.event_listener" event="preRemove" />
             <argument type="service" id="ano_media.manager" />
         </service>
 
