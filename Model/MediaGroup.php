@@ -11,7 +11,7 @@ abstract class MediaGroup implements MediaGroupInterface
     protected $mediaReferences = array();
 
     /* @var boolean */
-    protected $enabled;
+    protected $enabled = true;
 
     /* @var \DateTime */
     protected $createdAt;

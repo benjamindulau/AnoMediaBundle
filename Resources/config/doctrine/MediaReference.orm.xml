@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <mapped-superclass name="Ano\Bundle\MediaBundle\Model\MediaReference">
+
+        <field name="position" column="position" type="integer" />
+        <field name="enabled" column="enabled" type="boolean" />
+        <field name="createdAt" column="created_at" type="datetime"/>
+        <field name="updatedAt" column="updated_at" type="datetime"/>        
+
+    </mapped-superclass>
+
+</doctrine-mapping>

@@ -37,6 +37,9 @@ abstract class Media
     /* @var mixed */
     protected $content;
 
+    /* @var MediaReferenceInterface[] */
+    protected $mediaReferences = array();
+
 
     public function __construct($context = null)
     {
@@ -205,5 +208,21 @@ abstract class Media
     public function getContext()
     {
         return $this->context;
+    }
+
+    /**
+     * @return MediaReferenceInterface[]
+     */
+    public function getMediaReferences()
+    {
+        return $this->mediaReferences;
+    }
+
+    /**
+     * @param MediaReferenceInterface[]
+     */
+    public function setMediaReferences(array $mediaReferences)
+    {
+        $this->mediaReferences = $mediaReferences;
     }
 }

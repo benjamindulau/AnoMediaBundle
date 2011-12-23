@@ -13,7 +13,7 @@ abstract class MediaReference implements MediaReferenceInterface
     protected $group;
 
     /* @var integer */
-    protected $position;
+    protected $position = 0;
 
     /* @var DateTime */
     protected $createdAt;
@@ -22,7 +22,7 @@ abstract class MediaReference implements MediaReferenceInterface
     protected $updatedAt;
 
     /* @var boolean */
-    protected $enabled;
+    protected $enabled = true;
 
     /**
      * Constructor
