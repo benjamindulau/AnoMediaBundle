@@ -169,15 +169,20 @@ abstract class AbstractProvider implements ProviderInterface
         return $this->getMediaUrl($media, $format);
     }
 
-
     public function generateRelativePath(Media $media, $format = null)
     {
+        if ($format && isset($this->formats[$format]['format'])) {
+            $type = $this->formats[$format]['format'];
+        } else {
+            $type = ExtensionGuesser::guess($media->getContentType());
+        }
+
         return sprintf(
             '%s/%s_%s.%s',
             $this->generatePath($media),
             $media->getUuid(),
             $format,
-            ExtensionGuesser::guess($media->getContentType())
+            $type 
         );
     }
 

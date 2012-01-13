@@ -20,6 +20,7 @@ class MediaHelper extends Helper
     {
         $context = $this->getMediaManager()->getContext($media->getContext());
         $provider = $context->getProvider();
+        $provider->setFormats($context->getFormats());
         $options = $provider->getRenderOptions($media, $format, $options);
 
         if (null == $provider->getTemplate()) {
