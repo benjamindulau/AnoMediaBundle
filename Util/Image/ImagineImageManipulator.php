@@ -59,10 +59,12 @@ class ImagineImageManipulator implements ImageManipulatorInterface
                 $mode = ImageInterface::THUMBNAIL_OUTBOUND;
         }
         
+        $format = isset($options['format']) ? $options['format'] : ExtensionGuesser::guess($media->getContentType());
+        
         $image = $this->imagine->load($fromFile->getContent());
         $output = $image
             ->thumbnail(new Box($width, $height), $mode)
-            ->get(ExtensionGuesser::guess($media->getContentType()), $options);
+            ->get($format, $options);
 
         $toFile->setContent($output);
     }
