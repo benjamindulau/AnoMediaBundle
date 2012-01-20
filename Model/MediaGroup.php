@@ -20,6 +20,12 @@ abstract class MediaGroup implements MediaGroupInterface
     protected $updatedAt;
 
 
+    public function __construct($name = null)
+    {
+        $this->setName($name);
+        $this->createdAt = $this->updatedAt = new \DateTime();
+    }
+
     /**
      * {@inheritDoc}
      */

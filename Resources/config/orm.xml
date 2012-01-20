@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="ano_media.listener.doctrine.class">Ano\Bundle\MediaBundle\Listener\DoctrineMediaListener</parameter>
         <parameter key="ano_media.repository.media.class">Ano\Bundle\MediaBundle\Repository\DoctrineMediaRepository</parameter>
+        <parameter key="ano_media.repository.media_group.class">Ano\Bundle\MediaBundle\Repository\DoctrineMediaGroupRepository</parameter>
     </parameters>
 
     <services>
@@ -20,6 +21,10 @@
         </service>
 
         <service id="ano_media.repository.media" class="%ano_media.repository.media.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="ano_media.repository.media_group" class="%ano_media.repository.media_group.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
     </services>
