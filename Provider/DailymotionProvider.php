@@ -13,6 +13,10 @@ class DailymotionProvider extends AbstractVideoProvider
     public function prepareMedia(Media $media)
     {
         parent::prepareMedia($media);
+        $content = $media->getContent();
+        if (empty($content)) {
+            return;
+        }
 
         $metadata = $this->getMetadata($media);
         $metadata['uuid'] = $media->getContent();

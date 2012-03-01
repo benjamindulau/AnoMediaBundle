@@ -27,11 +27,16 @@ abstract class MediaReference implements MediaReferenceInterface
     /**
      * Constructor
      */
-    public function __construct(Media $media, MediaGroupInterface $group)
+    public function __construct(Media $media = null, MediaGroupInterface $group = null)
     {
         $this->updatedAt = $this->createdAt = new DateTime();
-        $this->setMedia($media);
-        $this->setGroup($group);
+        if (null !== $media) {
+            $this->setMedia($media);
+        }
+
+        if (null !== $group) {
+            $this->setGroup($group);
+        }
     }
 
     /**

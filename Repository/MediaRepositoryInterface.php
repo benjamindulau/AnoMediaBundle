@@ -9,4 +9,6 @@ interface MediaRepositoryInterface
     public function save(Media $media);
 
     public function delete(Media $media);
+
+    public function reloadMediaByUuid(Media $media);
 }

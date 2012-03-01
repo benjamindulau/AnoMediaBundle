@@ -63,6 +63,17 @@ abstract class MediaGroup implements MediaGroupInterface
     }
 
     /**
+     * @param $mediaReferences[]
+     */
+    public function setMediaReferences($mediaReferences)
+    {
+        $this->mediaReferences = $mediaReferences;
+        foreach($mediaReferences as $ref) {
+            $ref->setGroup($this);
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function isEnabled()

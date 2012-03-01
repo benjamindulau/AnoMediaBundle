@@ -4,6 +4,8 @@ namespace Ano\Bundle\MediaBundle\Repository;
 
 use Ano\Bundle\MediaBundle\Model\Media;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Util\ClassUtils;
+use Doctrine\ORM\UnitOfWork;
 
 class DoctrineMediaRepository implements MediaRepositoryInterface
 {
@@ -26,5 +28,20 @@ class DoctrineMediaRepository implements MediaRepositoryInterface
         $this->entityManager->remove($media);
         $this->entityManager->flush();
     }
+
+    /**
+     * @param Media $media
+     *
+     * @return Media
+     */
+    public function reloadMediaByUuid(Media $media)
+    {
+        $class = ClassUtils::getClass($media);
+
+        return $this->entityManager->getRepository($class)->findOneBy(array(
+            'uuid' => $media->getUuid(),
+        ));
+    }
+
 
 }
