@@ -19,15 +19,15 @@ class ImageProvider extends FileProvider
      */
     public function prepareMedia(Media $media)
     {
-        parent::prepareMedia($media);
-        $content = $media->getContent();
-        if (empty($content)) {
-            return;
+        if (!parent::prepareMedia($media)) {
+            return false;
         }
 
         $metadata = $media->getMetadata();
         list($metadata['width'], $metadata['height']) = @getimagesize($media->getContent()->getRealPath());
         $media->setMetadata($metadata);
+
+        return true;
     }
 
     /**
@@ -35,8 +35,9 @@ class ImageProvider extends FileProvider
      */
     public function saveMedia(Media $media)
     {
-        parent::saveMedia($media);
-        $this->generateFormats($media);
+        if (parent::saveMedia($media)) {
+            $this->generateFormats($media);
+        }
     }
 
     public function generateFormats(Media $media)

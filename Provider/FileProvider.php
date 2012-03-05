@@ -17,14 +17,9 @@ class FileProvider extends AbstractProvider
      */
     public function prepareMedia(Media $media)
     {
-        if (null == $media->getUuid()) {
-            $uuid = $this->uuidGenerator->generateUuid($media);
-            $media->setUuid($uuid);
-        }
-
         $content = $media->getContent();
         if (empty($content)) {
-            return;
+            return false;
         }
 
         if (!$content instanceof File) {
@@ -35,11 +30,18 @@ class FileProvider extends AbstractProvider
             $media->setContent(new File($content));
         }
 
+        if (null == $media->getUuid()) {
+            $uuid = $this->uuidGenerator->generateUuid($media);
+            $media->setUuid($uuid);
+        }
+
         $metadata = array();
 
         $media->setMetadata($metadata);
         //$media->setName($media->getContent()->getBasename());
         $media->setContentType($media->getContent()->getMimeType());
+
+        return true;
     }
 
     /**
@@ -48,11 +50,13 @@ class FileProvider extends AbstractProvider
     public function saveMedia(Media $media)
     {
         if (!$media->getContent() instanceof File) {
-            return;
+            return false;
         }
 
         $originalFile = $this->getOriginalFile($media);
         $originalFile->setContent(file_get_contents($media->getContent()->getRealPath()));
+
+        return true;
     }
 
     /**
