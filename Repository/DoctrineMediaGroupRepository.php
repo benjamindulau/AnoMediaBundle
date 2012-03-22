@@ -17,7 +17,24 @@ class DoctrineMediaGroupRepository implements MediaGroupRepositoryInterface
 
     public function save(MediaGroupInterface $mediaGroup)
     {
+        $this->fixMediaReferences($mediaGroup);
         $this->entityManager->persist($mediaGroup);
         $this->entityManager->flush();
+    }
+
+    private function fixMediaReferences(MediaGroupInterface $mediaGroup)
+    {
+        $references = clone ($mediaGroup->getMediaReferences());
+
+        foreach($references as $ref) {
+            $newMedia = $this->entityManager->merge($ref->getMedia());
+            $ref->setMedia($newMedia);
+
+            if (null !== $ref->getId()) {
+                $ref = $this->entityManager->merge($ref);
+            }
+        }
+
+        $mediaGroup->setMediaReferences($references);
     }
 }

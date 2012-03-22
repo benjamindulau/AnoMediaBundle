@@ -18,20 +18,8 @@ class MediaGroupManager implements MediaGroupManagerInterface
         $this->mediaRepository = $mediaRepository;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function saveOrUpdateMediaGroup(MediaGroupInterface $mediaGroup)
     {
-        $this->fixMediaReferences($mediaGroup);
         $this->mediaGroupRepository->save($mediaGroup);
-    }
-
-    private function fixMediaReferences(MediaGroupInterface $mediaGroup)
-    {
-        foreach($mediaGroup->getMediaReferences() as $ref) {
-            $ref->setMedia($this->mediaRepository->reloadMediaByUuid($ref->getMedia()));
-            $ref->setGroup($mediaGroup);
-        }
     }
 }
