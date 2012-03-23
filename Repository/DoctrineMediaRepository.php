@@ -3,20 +3,20 @@
 namespace Ano\Bundle\MediaBundle\Repository;
 
 use Ano\Bundle\MediaBundle\Model\Media;
-use Ano\Bundle\MediaBundle\Model\MediaReferenceInterface;
-use Ano\Bundle\MediaBundle\Model\MediaGroupInterface;
+use Ano\Bundle\MediaBundle\Model\Factory;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\UnitOfWork;
 
 class DoctrineMediaRepository implements MediaRepositoryInterface
 {
-    /* @var EntityManager */
-    private $entityManager;
+    protected $entityManager;
+    protected $factory;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, Factory $factory)
     {
         $this->entityManager = $entityManager;
+        $this->factory = $factory;
     }
 
     public function save(Media $media)
