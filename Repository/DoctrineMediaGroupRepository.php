@@ -8,8 +8,8 @@ use Doctrine\ORM\EntityManager;
 
 class DoctrineMediaGroupRepository implements MediaGroupRepositoryInterface
 {
-    private $entityManager;
-    private $factory;
+    protected $entityManager;
+    protected $factory;
 
     public function __construct(EntityManager $entityManager, Factory $factory)
     {
