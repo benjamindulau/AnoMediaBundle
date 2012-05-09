@@ -1,19 +1,22 @@
 # MediaBundle
 
-The MediaBundle provides similar features that the nice SonataMediaBundle, but without the tight coupled
+The MediaBundle provides similar features that the nice
+[SonataMediaBundle](https://github.com/sonata-project/SonataMediaBundle), but without the tight coupled
 SonataAdminBundle parts and with some different OOP design approaches.
 
-> ** Important Note **
+> **Important Note**
 >
-> Once again, i'm not inventing here, the bundle is heavily inspired from the great SonataMediaBundle and @rande is the brain the
-> context/provider behaviour ;-)
-> 
+> Once again, i'm not inventing here, the bundle is heavily inspired from the great
+> [SonataMediaBundle](https://github.com/sonata-project/SonataMediaBundle) and
+> [@rande](https://github.com/rande) is the brain behind the context/provider behaviour ;-)
+>
 > The AnoMediaBundle is just different in the way it handles the models, the contexts/providers and the events behind that.
 > That's also why the README file is essentially about the models :p
 >
-> However, i didn't chose to simply fork the SonataMediaBundle, but to rewrite the code from scratch. That's the way i
-> chose to understand all the DIC advanced configuration, and to forge a bundle which fits at best my personal needs.
-> But keep in mind that a lot of code from SonataMediaBundle is reused at some places.
+> However, i didn't chose to simply fork the [SonataMediaBundle](https://github.com/sonata-project/SonataMediaBundle),
+> but to rewrite the code from scratch. That's the way i chose to understand all the DIC advanced configuration,
+> and to forge a bundle which fits at best my personal needs. But keep in mind that a lot of code from SonataMediaBundle
+> is reused at some places.
 
 The MediaBundle provides a generic and universal way to handle different kinds of medias in a project.
 It provides a bunch of services, each responsible for a specific task in the media journey.
