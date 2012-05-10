@@ -10,7 +10,9 @@
     </parameters>
 
     <services>
-        <service id="ano_media.manager" class="%ano_media.manager.class%" />
+        <service id="ano_media.manager" class="%ano_media.manager.class%">
+            <argument type="service" id="event_dispatcher" />
+        </service>
         <service id="ano_media.manager.media_group" class="%ano_media.manager.media_group.class%">
             <argument type="service" id="ano_media.repository.media_group" />
             <argument type="service" id="ano_media.repository.media" />

@@ -72,25 +72,15 @@ class FileProvider extends AbstractProvider
         }
 
         // Original
-        $path = $this->getOriginalFilePath($media);
+        $path = $this->pathGenerator->generatePath($media);
         if ($this->getFilesystem()->has($path)) {
             $this->getFilesystem()->delete($path);
         }
     }
 
-    public function getOriginalFilePath(Media $media)
-    {
-        return sprintf(
-            '%s/%s.%s',
-            $this->generatePath($media),
-            $media->getUuid(),
-            ExtensionGuesser::guess($media->getContentType())
-        );
-    }
-
     public function getOriginalFile(Media $media)
     {
-        return $this->getFilesystem()->get($this->getOriginalFilePath($media), true);
+        return $this->getFilesystem()->get($this->pathGenerator->generatePath($media), true);
     }
 
     /**
@@ -100,10 +90,10 @@ class FileProvider extends AbstractProvider
     {
         // wants original file
         if (null == $format) {
-            $path = $this->getOriginalFilePath($media);
+            $path = $this->pathGenerator->generatePath($media);
         }
         else {
-            $path = $this->generateRelativePath($media, $format);
+            $path = $this->pathGenerator->generatePath($media, $format);
         }
 
         return $this->cdn->getFullPath($path);
