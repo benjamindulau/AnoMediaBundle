@@ -9,7 +9,7 @@ interface MediaReferenceInterface
      *
      * @param Media $media
      */
-    function setMedia(Media $media);
+    function setMedia(Media $media = null);
 
     /**
      * Gets the targeted Media
@@ -23,7 +23,7 @@ interface MediaReferenceInterface
      *
      * @param MediaGroupInterface $group
      */
-    function setGroup(MediaGroupInterface $group);
+    function setGroup(MediaGroupInterface $group = null);
 
     /**
      * Gets the media group
@@ -38,4 +38,11 @@ interface MediaReferenceInterface
      * @return boolean
      */
     function isEnabled();
+
+    /**
+     * Returns true if the reference should be removed during persistence operations
+     *
+     * @return bool
+     */
+    function isMarkedAsDeleted();
 }

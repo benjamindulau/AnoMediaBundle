@@ -24,6 +24,9 @@ abstract class MediaReference implements MediaReferenceInterface
     /* @var boolean */
     protected $enabled = true;
 
+    /** @var boolean */
+    protected $markedAsDeleted = false;
+
     /**
      * Constructor
      */
@@ -42,7 +45,7 @@ abstract class MediaReference implements MediaReferenceInterface
     /**
      * {@inheritDoc}
      */
-    public function setMedia(Media $media)
+    public function setMedia(Media $media = null)
     {
         $this->media = $media;
     }
@@ -58,7 +61,7 @@ abstract class MediaReference implements MediaReferenceInterface
     /**
      * {@inheritDoc}
      */
-    public function setGroup(MediaGroupInterface $group)
+    public function setGroup(MediaGroupInterface $group = null)
     {
         $this->group = $group;
     }
@@ -141,5 +144,31 @@ abstract class MediaReference implements MediaReferenceInterface
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * @param boolean $markedAsDeleted
+     */
+    public function setMarkedAsDeleted($markedAsDeleted)
+    {
+        $this->markedAsDeleted = $markedAsDeleted;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getMarkedAsDeleted()
+    {
+        return $this->markedAsDeleted;
+    }
+
+    public function markAsDeleted()
+    {
+        $this->setMarkedAsDeleted(true);
+    }
+
+    public function isMarkedAsDeleted()
+    {
+        return $this->getMarkedAsDeleted();
     }
 }

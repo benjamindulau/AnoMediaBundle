@@ -2,13 +2,15 @@
 
 namespace Ano\Bundle\MediaBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 abstract class MediaGroup implements MediaGroupInterface
 {
     /* @var string */
     protected $name;
 
     /* @var MediaReference[] */
-    protected $mediaReferences = array();
+    protected $mediaReferences;
 
     /* @var boolean */
     protected $enabled = true;
@@ -24,6 +26,7 @@ abstract class MediaGroup implements MediaGroupInterface
     {
         $this->setName($name);
         $this->createdAt = $this->updatedAt = new \DateTime();
+        $this->mediaReferences = new ArrayCollection();
     }
 
     /**
@@ -49,7 +52,8 @@ abstract class MediaGroup implements MediaGroupInterface
      */
     public function addMediaReference(MediaReferenceInterface $mediaReference)
     {
-        $this->mediaReferences[] = $mediaReference;
+        $this->mediaReferences->add($mediaReference);
+        $mediaReference->setGroup($this);
 
         return $this;
     }
@@ -63,7 +67,7 @@ abstract class MediaGroup implements MediaGroupInterface
     }
 
     /**
-     * @param $mediaReferences[]
+     * @param $mediaReferences[]|ArrayCollection $mediaReferences
      */
     public function setMediaReferences($mediaReferences)
     {
@@ -71,6 +75,20 @@ abstract class MediaGroup implements MediaGroupInterface
         foreach($mediaReferences as $ref) {
             $ref->setGroup($this);
         }
+    }
+
+    /**
+     * @param MediaReferenceInterface $mediaReference
+     */
+    public function removeMediaReference(MediaReferenceInterface $mediaReference)
+    {
+        $this->mediaReferences->removeElement($mediaReference);
+        $mediaReference->setGroup(null);
+    }
+
+    public function hasMediaReference(MediaReferenceInterface $mediaReference)
+    {
+        return $this->mediaReferences->contains($mediaReference);
     }
 
     /**

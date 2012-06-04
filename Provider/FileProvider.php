@@ -65,7 +65,7 @@ class FileProvider extends AbstractProvider
     public function removeMedia(Media $media)
     {
         foreach($this->formats as $format => $options) {
-            $path = $this->generateRelativePath($media, $format);
+            $path = $this->pathGenerator->generatePath($media, $format);
             if ($this->getFilesystem()->has($path)) {
                 $this->getFilesystem()->delete($path);
             }

@@ -2,6 +2,8 @@
 
 namespace Ano\Bundle\MediaBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 abstract class Media
 {
     /* @var string Universal Unique ID */
@@ -38,7 +40,7 @@ abstract class Media
     protected $content;
 
     /* @var MediaReferenceInterface[] */
-    protected $mediaReferences = array();
+    protected $mediaReferences;
 
 
     public function __construct($context = null)
@@ -47,6 +49,7 @@ abstract class Media
             $this->setContext($context);
         }
         $this->updatedAt = $this->createdAt = new \DateTime();
+        $this->mediaReferences = new ArrayCollection();
     }
 
     /**
@@ -211,7 +214,7 @@ abstract class Media
     }
 
     /**
-     * @return MediaReferenceInterface[]
+     * @return MediaReferenceInterface[]|ArrayCollection
      */
     public function getMediaReferences()
     {
@@ -219,10 +222,33 @@ abstract class Media
     }
 
     /**
-     * @param MediaReferenceInterface[]
+     * @param MediaReferenceInterface $mediaReference
      */
-    public function setMediaReferences(array $mediaReferences)
+    public function addMediaReference(MediaReferenceInterface $mediaReference)
+    {
+        $this->mediaReferences->add($mediaReference);
+        $mediaReference->setMedia($this);
+    }
+
+    /**
+     * @param MediaReferenceInterface[]|ArrayCollection
+     */
+    public function setMediaReferences($mediaReferences)
     {
         $this->mediaReferences = $mediaReferences;
+    }
+
+    /**
+     * @param MediaReferenceInterface $ref
+     */
+    public function removeMediaReference(MediaReferenceInterface $ref)
+    {
+        $this->mediaReferences->removeElement($ref);
+        $ref->setMedia(null);
+    }
+
+    public function __toString()
+    {
+        return sprintf('media_#%s_%s_%s', $this->getId(), $this->getUuid(), $this->getName());
     }
 }

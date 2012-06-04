@@ -19,6 +19,13 @@ class DoctrineMediaRepository implements MediaRepositoryInterface
         $this->factory = $factory;
     }
 
+    public function find($id)
+    {
+        $class = $this->factory->getClass('media');
+
+        return $this->entityManager->getRepository($class)->find($id);
+    }
+
     public function save(Media $media)
     {
         $this->entityManager->persist($media);
@@ -29,5 +36,23 @@ class DoctrineMediaRepository implements MediaRepositoryInterface
     {
         $this->entityManager->remove($media);
         $this->entityManager->flush();
+    }
+
+    public function findMediaReference($id)
+    {
+        return $this->entityManager->getRepository($this->factory->getClass('mediaReference'))->find($id);
+    }
+
+    public function findMediaReferencesByIds(array $ids)
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb
+            ->select('r, m')
+            ->from($this->factory->getClass('mediaReference'), 'r')
+            ->leftJoin('r.media', 'm')
+            ->where($qb->expr()->in('r.id', $ids))
+        ;
+
+        return $qb->getQuery()->getResult();
     }
 }

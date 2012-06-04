@@ -20,57 +20,46 @@ class DoctrineMediaGroupRepository implements MediaGroupRepositoryInterface
     public function save(MediaGroupInterface $mediaGroup)
     {
         try {
-            $this->entityManager->beginTransaction();
+//            $this->entityManager->beginTransaction();
+        // TODO: See if it's relevant to restore this try/catch block.
+        // When rolling back operations, the entity manager is closed which
+        // causes the EM to be unusable in the further persistence operations
+        // INVESTIGATE !!
+        // @see: http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/transactions-and-concurrency.html#exception-handling
 
-            $this->fixMediaReferences($mediaGroup);
+//            $this->fixMediaReferences($mediaGroup);
             $this->entityManager->persist($mediaGroup);
             $this->entityManager->flush();
-            $this->deleteOldMediaReferencesForGroup($mediaGroup);
-
-            $this->entityManager->commit();
         } catch(\Exception $e) {
-            $this->entityManager->rollback();
+            die($e->getMessage());
         }
-
     }
 
     private function fixMediaReferences(MediaGroupInterface $mediaGroup)
     {
-        $references = clone ($mediaGroup->getMediaReferences());
+        $references = $mediaGroup->getMediaReferences();
 
-        $ids = array();
         foreach($references as $ref) {
-            $newMedia = $this->entityManager->merge($ref->getMedia());
-            $ref->setMedia($newMedia);
+            $this->entityManager->persist($ref);
+            $media = $this->entityManager->merge($ref->getMedia());
 
-            if (null !== $ref->getId()) {
+            if (null === $ref->getId()) {
+                $ref->setGroup($mediaGroup);
+                $ref->setMedia($media);
+                $this->entityManager->persist($ref);
+            } else {
                 $ref = $this->entityManager->merge($ref);
-                $ids[] = $ref->getId();
+                $ref->setMedia($media);
+//                $this->entityManager->persist($media);
+
+                if ($ref->isMarkedAsDeleted()) {
+                    $mediaGroup->removeMediaReference($ref);
+                    $this->entityManager->remove($ref);
+                } else {
+                    $this->entityManager->persist($ref);
+                }
             }
         }
-
-        $mediaGroup->setMediaReferences($references);
-    }
-
-    protected function deleteOldMediaReferencesForGroup(MediaGroupInterface $mediaGroup)
-    {
-        $ids = array();
-        foreach($mediaGroup->getMediaReferences() as $references) {
-            $ids[] = $references->getId();
-        }
-
-        // HACK !!
-        $qb = $this->entityManager->createQueryBuilder();
-        $qb
-            ->delete($this->factory->getClass('mediaReference'), 'mr')
-            ->where('mr.group = :group')
-            ->setParameter('group', $mediaGroup)
-        ;
-        if (!empty($ids)) {
-            $qb->andWhere($qb->expr()->notIn('mr.id', $ids));
-        }
-
-        $qb->getQuery()->execute();
     }
 
     public function findBy(array $criteria, $orderBy = array(), $limit = null, $offset = null)
