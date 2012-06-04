@@ -4,7 +4,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                   http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Ano\Bundle\MediaBundle\Model\Media">
+    <mapped-superclass name="Ano\Bundle\MediaBundle\Entity\Media">
 
         <field name="uuid" column="uuid" type="string" length="255" unique="true" />
         <field name="name" column="name" type="string" length="255" nullable="true" />
