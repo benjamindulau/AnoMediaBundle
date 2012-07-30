@@ -4,6 +4,18 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="ano_media.filesystem.local.base_path"></parameter>
+        <parameter key="ano_media.filesystem.local.create"></parameter>
+
+        <parameter key="ano_media.filesystem.rackspace_cloudfiles.username"></parameter>
+        <parameter key="ano_media.filesystem.rackspace_cloudfiles.api_key"></parameter>
+        <parameter key="ano_media.filesystem.rackspace_cloudfiles.account"></parameter>
+        <parameter key="ano_media.filesystem.rackspace_cloudfiles.auth_host"></parameter>
+        <parameter key="ano_media.filesystem.rackspace_cloudfiles.container"></parameter>
+        <parameter key="ano_media.filesystem.rackspace_cloudfiles.version"></parameter>
+    </parameters>
+
     <services>
         <service id="ano_media.filesystem.adapter.local" class="Gaufrette\Adapter\Local">
             <argument>%ano_media.filesystem.local.base_path%</argument>
@@ -17,6 +29,24 @@
 
         <service id="ano_media.filesystem.ftp" class="Gaufrette\Filesystem">
             <argument type="service" id="ano_media.filesystem.adapter.ftp" />
+        </service>
+
+        <!-- Rackspace Cloudfiles -->
+        <service id="ano_media.filesystem.rackspace_cloudfiles.authentication" class="CF_Authentication">
+            <argument>%ano_media.filesystem.rackspace_cloudfiles.username%</argument>
+            <argument>%ano_media.filesystem.rackspace_cloudfiles.api_key%</argument>
+            <!--<argument>%ano_media.filesystem.rackspace_cloudfiles.account%</argument>-->
+            <!--<argument>%ano_media.filesystem.rackspace_cloudfiles.auth_host%</argument>-->
+        </service>
+
+        <service id="ano_media.filesystem.adapter.rackspace_cloudfiles" class="Ano\Bundle\MediaBundle\Gaufrette\Adapter\RackspaceCloudfiles">
+            <argument type="service" id="ano_media.filesystem.rackspace_cloudfiles.authentication" />
+            <argument>%ano_media.filesystem.rackspace_cloudfiles.container%</argument>
+            <argument>%ano_media.filesystem.rackspace_cloudfiles.version%</argument>
+        </service>
+
+        <service id="ano_media.filesystem.rackspace_cloudfiles" class="Gaufrette\Filesystem">
+            <argument type="service" id="ano_media.filesystem.adapter.rackspace_cloudfiles" />
         </service>
     </services>
 

@@ -93,6 +93,7 @@ class Configuration implements ConfigurationInterface
      *         image:
      *             default: true #optional
      *             id: ano_media.provider.image
+     *             filesystem: local #optional
      *             cdn: local #optional
      *
      * @param ArrayNodeDefinition $node
@@ -115,7 +116,9 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('default')->defaultValue(false)->end()
                             ->scalarNode('id')->isRequired()->end()
+                            ->scalarNode('filesystem')->end()
                             ->scalarNode('cdn')->end()
+                            ->scalarNode('path_generator')->end()
                         ->end()
                     ->end()
                 ->end()

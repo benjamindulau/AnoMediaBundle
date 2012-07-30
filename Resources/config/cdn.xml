@@ -6,9 +6,11 @@
 
     <parameters>
         <parameter key="ano_media.cdn.remote_server.class">Ano\Bundle\MediaBundle\Cdn\RemoteServerCdn</parameter>
+        <parameter key="ano_media.cdn.remote_server.base_url"></parameter>
     </parameters>
 
     <services>
+        <!-- Server (local or remote) -->
         <service id="ano_media.cdn.remote_server" class="%ano_media.cdn.remote_server.class%">
             <argument>%ano_media.cdn.remote_server.base_url%</argument>
         </service>
