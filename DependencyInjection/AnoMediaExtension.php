@@ -198,8 +198,19 @@ class AnoMediaExtension extends Extension
             }
 
             // Generators
+            // Path generator
+            if (isset($options['path_generator'])) {
+                $pathGenerator = $options['path_generator'];
+                if (isset($config['generator']['path'][$pathGenerator])) {
+                    $pathGeneratorId = $config['generator']['path'][$pathGenerator]['id'];
+                    $def->replaceArgument(3, new Reference($pathGeneratorId));
+                }
+            }
+            else {
+                $def->replaceArgument(3, new Reference($this->defaultPathGenerator));
+            }
+
             // TODO: This is not dynamic ! to be fixed !
-            $def->replaceArgument(3, new Reference($this->defaultPathGenerator));
             $def->replaceArgument(4, new Reference($this->defaultUuidGenerator));
 
             // Image manipulators

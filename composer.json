@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "ano/system-bundle": "*",
+        "ano/system-bundle": "1.0.x-dev",
         "knplabs/gaufrette": "*"
     },
     "suggest": {
@@ -21,10 +21,5 @@
     "autoload": {
         "psr-0": { "Ano\\Bundle\\MediaBundle": "" }
     },
-    "target-dir": "Ano/Bundle/MediaBundle",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
-    }
+    "target-dir": "Ano/Bundle/MediaBundle"
 }
