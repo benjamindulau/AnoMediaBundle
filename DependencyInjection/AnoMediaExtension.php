@@ -9,7 +9,7 @@
 
 namespace Ano\Bundle\MediaBundle\DependencyInjection;
 
-use Ano\Bundle\SystemBundle\DependencyInjection\Extension;
+use Ano\Bundle\CommonBundle\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Container;

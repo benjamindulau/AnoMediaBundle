@@ -7,8 +7,6 @@ use Ano\Bundle\MediaBundle\Model\Media;
 use Ano\Bundle\MediaBundle\Cdn\CdnInterface;
 use Ano\Bundle\MediaBundle\Generator\Path\PathGeneratorInterface;
 use Ano\Bundle\MediaBundle\Generator\Uuid\UuidGeneratorInterface;
-use Ano\Bundle\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
-
 
 abstract class AbstractProvider implements ProviderInterface
 {

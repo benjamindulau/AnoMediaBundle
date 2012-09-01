@@ -4,7 +4,6 @@ namespace Ano\Bundle\MediaBundle\Provider;
 
 use Ano\Bundle\MediaBundle\Model\Media;
 use Symfony\Component\HttpFoundation\File\File;
-use Ano\Bundle\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
 abstract class AbstractVideoProvider extends AbstractProvider
 {

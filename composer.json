@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-        "ano/system-bundle": "1.0.x-dev",
+        "ano/common-bundle": "*",
+        "symfony/framework-bundle": ">=2.1",
         "knplabs/gaufrette": "*"
     },
     "suggest": {

@@ -3,7 +3,7 @@
 namespace Ano\Bundle\MediaBundle\Util\Image;
 
 use Ano\Bundle\MediaBundle\Model\Media;
-use Ano\Bundle\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
+use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
 
 use Imagine\Image\ImagineInterface,
     Imagine\Image\ImageInterface,
@@ -62,7 +62,7 @@ class ImagineImageManipulator implements ImageManipulatorInterface
         $image = $this->imagine->load($fromFile->getContent());
         $output = $image
             ->thumbnail(new Box($width, $height), $mode)
-            ->get(ExtensionGuesser::guess($media->getContentType()), $options);
+            ->get(ExtensionGuesser::getInstance()->guess($media->getContentType()), $options);
 
         $toFile->setContent($output);
     }

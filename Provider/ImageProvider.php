@@ -6,7 +6,6 @@ use Ano\Bundle\MediaBundle\Model\Media;
 use Ano\Bundle\MediaBundle\Util\Image\ImageManipulatorInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-use Ano\Bundle\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
 class ImageProvider extends FileProvider
 {

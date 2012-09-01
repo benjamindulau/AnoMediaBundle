@@ -3,7 +3,6 @@
 namespace Ano\Bundle\MediaBundle\Provider;
 
 use Ano\Bundle\MediaBundle\Model\Media;
-use Ano\Bundle\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
 class DailymotionProvider extends AbstractVideoProvider
 {

@@ -5,7 +5,6 @@ namespace Ano\Bundle\MediaBundle\Provider;
 use Ano\Bundle\MediaBundle\Model\Media;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-use Ano\Bundle\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
 class FileProvider extends AbstractProvider
 {
