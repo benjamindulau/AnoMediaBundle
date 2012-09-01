@@ -211,7 +211,6 @@ class Configuration implements ConfigurationInterface
         $node
             ->children()
                 ->arrayNode('manipulator')
-                    ->addDefaultsIfNotSet()
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->beforeNormalization()
