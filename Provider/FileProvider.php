@@ -34,8 +34,7 @@ class FileProvider extends AbstractProvider
             $media->setUuid($uuid);
         }
 
-        $metadata = array();
-
+        $metadata = array('size', $media->getContent()->getSize());
         $media->setMetadata($metadata);
         //$media->setName($media->getContent()->getBasename());
         $media->setContentType($media->getContent()->getMimeType());

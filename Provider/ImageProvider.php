@@ -23,7 +23,8 @@ class ImageProvider extends FileProvider
         }
 
         $metadata = $media->getMetadata();
-        list($metadata['width'], $metadata['height']) = @getimagesize($media->getContent()->getRealPath());
+        list($metadata['width'], $metadata['height'], $metadata['size']) = @getimagesize($media->getContent()->getRealPath());
+        $metadata['size'] = $media->getContent()->getSize();
         $media->setMetadata($metadata);
 
         return true;
