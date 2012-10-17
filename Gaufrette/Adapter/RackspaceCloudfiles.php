@@ -18,6 +18,9 @@ class RackspaceCloudfiles extends BaseRackspaceCloudfiles
     /** @var \CF_Connection */
     protected $connection;
 
+    /** @var boolean */
+    protected $snet;
+
     /** @var string */
     protected $containerName;
 
@@ -27,10 +30,11 @@ class RackspaceCloudfiles extends BaseRackspaceCloudfiles
     /** @var float */
     protected $version;
 
-    public function __construct(\CF_Authentication $authentication, $containerName = null, $version = 1)
+    public function __construct(\CF_Authentication $authentication, $containerName = null, $snet = false, $version = 1)
     {
         $this->authentication = $authentication;
         $this->containerName = $containerName;
+        $this->snet = $snet;
         $this->version = $version;
     }
 
@@ -49,7 +53,7 @@ class RackspaceCloudfiles extends BaseRackspaceCloudfiles
             $this->authenticate();
         }
 
-        $this->connection = new \CF_Connection($this->authentication);
+        $this->connection = new \CF_Connection($this->authentication, $this->snet);
     }
 
     /**

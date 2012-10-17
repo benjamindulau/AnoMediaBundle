@@ -42,6 +42,7 @@
         <service id="ano_media.filesystem.adapter.rackspace_cloudfiles" class="Ano\Bundle\MediaBundle\Gaufrette\Adapter\RackspaceCloudfiles">
             <argument type="service" id="ano_media.filesystem.rackspace_cloudfiles.authentication" />
             <argument>%ano_media.filesystem.rackspace_cloudfiles.container%</argument>
+            <argument>%ano_media.filesystem.rackspace_cloudfiles.snet%</argument>
             <argument>%ano_media.filesystem.rackspace_cloudfiles.version%</argument>
         </service>
 
