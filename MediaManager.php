@@ -27,7 +27,7 @@ class MediaManager
 
     /* @var CdnInterface */
     protected $defaultCdn;
-    
+
     /* @var array */
     protected $filesystems = array();
 
@@ -185,7 +185,7 @@ class MediaManager
     {
         return array_key_exists($name, $this->providers);
     }
-    
+
     /**
      * @param Filesystem
      */
@@ -280,5 +280,14 @@ class MediaManager
         $context->getProvider()->removeMedia($media);
 
         $this->dispatcher->dispatch(MediaEvents::AFTER_REMOVE, $event);
+    }
+
+    public function getUri(Media $media, $format = null, array $options = array())
+    {
+        $context  = $this->getContext($media->getContext());
+        $provider = $context->getProvider();
+        $options  = $provider->getRenderOptions($media, $format, $options);
+
+        return $provider->renderRaw($media, $format, $options);
     }
 }
