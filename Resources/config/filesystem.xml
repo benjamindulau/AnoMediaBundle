@@ -14,6 +14,7 @@
         <parameter key="ano_media.filesystem.rackspace_cloudfiles.auth_host"></parameter>
         <parameter key="ano_media.filesystem.rackspace_cloudfiles.container"></parameter>
         <parameter key="ano_media.filesystem.rackspace_cloudfiles.version"></parameter>
+        <parameter key="ano_media.filesystem.rackspace_cloudfiles.snet"></parameter>
     </parameters>
 
     <services>
