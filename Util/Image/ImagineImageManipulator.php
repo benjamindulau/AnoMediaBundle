@@ -13,7 +13,7 @@ use Gaufrette\File;
 
 class ImagineImageManipulator implements ImageManipulatorInterface
 {
-    /* @var \Imagine\ImagineInterface */
+    /* @var ImagineInterface */
     protected $imagine;
 
     public function __construct(ImagineInterface $imagine)
@@ -38,34 +38,29 @@ class ImagineImageManipulator implements ImageManipulatorInterface
             throw new \InvalidArgumentException('You must specify at least a width and/or an height value');
         }
         
-        $metadata = $media->getMetadata();
-        if (null !== $width && null == $height) {
-            $height = (int)($width * $metadata['height'] / $metadata['width']);
-        }
-        else if (null == $width) {
-            $width = (int)($height * $metadata['width'] / $metadata['height']);
-        }
-
-        switch($mode) {
-            case self::RESIZE_MODE_OUTBOUND:
-                $mode = ImageInterface::THUMBNAIL_OUTBOUND;
-            break;
-
-            case self::RESIZE_MODE_INSET:
-                $mode = ImageInterface::THUMBNAIL_INSET;
-            break;
-
-            default:
-                $mode = ImageInterface::THUMBNAIL_OUTBOUND;
-        }
-        
         $image = $this->imagine->load($fromFile->getContent());
-        $output = $image
-            ->thumbnail(new Box($width, $height), $mode)
-            ->get(ExtensionGuesser::getInstance()->guess($media->getContentType()), $options);
 
-        $toFile->setContent($output);
+        if (null == $width) {
+            $image = $image->resize($image->getSize()->heighten($height));
+        } elseif (null == $height) {
+            $image = $image->resize($image->getSize()->widen($width));
+        } else {
+            switch($mode) {
+                case self::RESIZE_MODE_OUTBOUND:
+                    $mode = ImageInterface::THUMBNAIL_OUTBOUND;
+                break;
+
+                case self::RESIZE_MODE_INSET:
+                    $mode = ImageInterface::THUMBNAIL_INSET;
+                break;
+
+                default:
+                    $mode = ImageInterface::THUMBNAIL_OUTBOUND;
+            }
+            $image->thumbnail(new Box($width, $height), $mode);
+        }
+
+        $outputContent = $image->get(ExtensionGuesser::getInstance()->guess($media->getContentType()), $options);
+        $toFile->setContent($outputContent);
     }
-
-
 }
