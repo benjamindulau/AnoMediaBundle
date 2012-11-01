@@ -57,7 +57,8 @@ class ImagineImageManipulator implements ImageManipulatorInterface
                 default:
                     $mode = ImageInterface::THUMBNAIL_OUTBOUND;
             }
-            $image->thumbnail(new Box($width, $height), $mode);
+
+            $image = $image->thumbnail(new Box($width, $height), $mode);
         }
 
         $outputContent = $image->get(ExtensionGuesser::getInstance()->guess($media->getContentType()), $options);
