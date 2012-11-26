@@ -33,6 +33,28 @@ and Dependency Injection system/concept.
 
 ### Dependencies
 
+
+
+Add the following lines to your `deps` file:
+
+  
+    [AnoSystemBundle]
+        git=https://github.com/benjamindulau/AnoSystemBundle.git
+        target=bundles/Ano/Bundle/SystemBundle
+        
+    [AnoMediaBundle]
+        git=https://github.com/benjamindulau/AnoMediaBundle.git
+        target=bundles/Ano/Bundle/MediaBundle
+        
+    [gaufrette]
+        git=https://github.com/KnpLabs/Gaufrette.git
+        target=/gaufrette
+        
+    [Imagine]
+        git=git://github.com/avalanche123/Imagine.git
+        target=/imagine
+        
+    
 #### AnoSystemBundle
 
 Most of the Ano bundles have a dependency on a [AnoSystemBundle](https://github.com/benjamindulau/AnoSystemBundle)
@@ -55,6 +77,9 @@ If you intend to use the default ImageManipulator implementation, you need to in
 ### MediaBundle
 
 The bundle goes to the `vendor/bundles/Ano/Bundle` directory (so you should have `vendor/bundles/Ano/Bundle/MediaBundle`)
+
+
+
 
 
 ## Concept

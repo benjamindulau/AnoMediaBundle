@@ -4,7 +4,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                   http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Ano\Bundle\MediaBundle\Model\MediaGroup">
+    <mapped-superclass name="Ano\Bundle\MediaBundle\Entity\MediaGroup">
 
         <field name="name" column="name" type="string" length="255" nullable="true" />
         <field name="enabled" column="enabled" type="boolean" />
