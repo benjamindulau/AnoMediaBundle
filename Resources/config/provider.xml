@@ -9,6 +9,7 @@
         <parameter key="ano_media.provider.file.class">Ano\Bundle\MediaBundle\Provider\FileProvider</parameter>
         <parameter key="ano_media.provider.image.class">Ano\Bundle\MediaBundle\Provider\ImageProvider</parameter>
         <parameter key="ano_media.provider.dailymotion.class">Ano\Bundle\MediaBundle\Provider\DailymotionProvider</parameter>
+        <parameter key="ano_media.provider.youtube.class">Ano\Bundle\MediaBundle\Provider\YoutubeProvider</parameter>
     </parameters>
 
     <services>
@@ -29,6 +30,8 @@
         <service id="ano_media.provider.file" class="%ano_media.provider.file.class%" parent="ano_media.provider.abstract" />
 
         <service id="ano_media.provider.dailymotion" class="%ano_media.provider.dailymotion.class%" parent="ano_media.provider.abstract" />
+
+        <service id="ano_media.provider.youtube" class="%ano_media.provider.youtube.class%" parent="ano_media.provider.abstract" />
 
     </services>
 
