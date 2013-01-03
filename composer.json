@@ -22,5 +22,10 @@
     "autoload": {
         "psr-0": { "Ano\\Bundle\\MediaBundle": "" }
     },
-    "target-dir": "Ano/Bundle/MediaBundle"
+    "target-dir": "Ano/Bundle/MediaBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0-dev"
+        }
+    }
 }
