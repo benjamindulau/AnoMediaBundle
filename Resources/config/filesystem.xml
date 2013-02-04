@@ -10,11 +10,12 @@
 
         <parameter key="ano_media.filesystem.rackspace_cloudfiles.username"></parameter>
         <parameter key="ano_media.filesystem.rackspace_cloudfiles.api_key"></parameter>
-        <parameter key="ano_media.filesystem.rackspace_cloudfiles.account"></parameter>
-        <parameter key="ano_media.filesystem.rackspace_cloudfiles.auth_host"></parameter>
+        <parameter key="ano_media.filesystem.rackspace_cloudfiles.account">null</parameter>
+        <parameter key="ano_media.filesystem.rackspace_cloudfiles.auth_host">https://auth.api.rackspacecloud.com</parameter>
         <parameter key="ano_media.filesystem.rackspace_cloudfiles.container"></parameter>
-        <parameter key="ano_media.filesystem.rackspace_cloudfiles.version"></parameter>
-        <parameter key="ano_media.filesystem.rackspace_cloudfiles.snet"></parameter>
+        <parameter key="ano_media.filesystem.rackspace_cloudfiles.base_path">null</parameter>
+        <parameter key="ano_media.filesystem.rackspace_cloudfiles.version">1</parameter>
+        <parameter key="ano_media.filesystem.rackspace_cloudfiles.snet">true</parameter>
     </parameters>
 
     <services>
@@ -36,13 +37,14 @@
         <service id="ano_media.filesystem.rackspace_cloudfiles.authentication" class="CF_Authentication">
             <argument>%ano_media.filesystem.rackspace_cloudfiles.username%</argument>
             <argument>%ano_media.filesystem.rackspace_cloudfiles.api_key%</argument>
-            <!--<argument>%ano_media.filesystem.rackspace_cloudfiles.account%</argument>-->
-            <!--<argument>%ano_media.filesystem.rackspace_cloudfiles.auth_host%</argument>-->
+            <argument>%ano_media.filesystem.rackspace_cloudfiles.account%</argument>
+            <argument>%ano_media.filesystem.rackspace_cloudfiles.auth_host%</argument>
         </service>
 
         <service id="ano_media.filesystem.adapter.rackspace_cloudfiles" class="Ano\Bundle\MediaBundle\Gaufrette\Adapter\RackspaceCloudfiles">
             <argument type="service" id="ano_media.filesystem.rackspace_cloudfiles.authentication" />
             <argument>%ano_media.filesystem.rackspace_cloudfiles.container%</argument>
+            <argument>%ano_media.filesystem.rackspace_cloudfiles.base_path%</argument>
             <argument>%ano_media.filesystem.rackspace_cloudfiles.snet%</argument>
             <argument>%ano_media.filesystem.rackspace_cloudfiles.version%</argument>
         </service>
