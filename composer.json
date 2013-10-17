@@ -12,9 +12,8 @@
         }
     ],
     "require": {
-        "ano/common-bundle": "*",
         "symfony/framework-bundle": ">=2.1",
-        "knplabs/gaufrette": "*"
+        "knplabs/gaufrette": "0.1.*"
     },
     "suggest": {
         "imagine/Imagine": "0.2.*"
